@@ -91,13 +91,14 @@ def plotCentData(data):
     centGraph = ax.stairs(rawCent[1], timeLabels, fill=True, color="#5b8", label="Meta discussions", alpha=0.7)
 
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
-    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+    ax.xaxis.set_major_locator(mdates.MonthLocator(interval=6))
 
     plt.xticks(rotation=45)
     plt.xlabel('Date')
     plt.ylabel('# Discussions')
-    plt.title(f'Number of active discussions on WP:CENT')
+    plt.title('Number of active discussions on WP:CENT')
     plt.legend()
+    plt.savefig(f'cent.png')
 
     plt.show()
 
@@ -113,7 +114,7 @@ def getUsers(data):
 
     return Counter(users).most_common(), Counter(metaUsers).most_common()
 
-centData = getMoreCentData(initMediaWikiAPI(), 500)[::-1]
+centData = getMoreCentData(initMediaWikiAPI(), 6400)[::-1]
 
 print(getUsers(centData))
 plotCentData(centData)
