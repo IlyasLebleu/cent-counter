@@ -39,7 +39,7 @@ def getCentData(session, n, rvstart=""):
 
     pages = data["query"]["pages"][0]["revisions"]
 
-    pages = [{"content":parseWikitext(page["slots"]["main"]["content"]), "timestamp":page["timestamp"], "user":page["user"]} for page in pages] #convert time to epoch
+    pages = [{"content":parseWikitext(page["slots"]["main"]["content"]), "timestamp":page["timestamp"], "user":page["user"]} for page in pages if not "texthidden" in page["slots"]["main"]] #convert time to epoch
 
     return pages
 
@@ -60,7 +60,10 @@ def parseWikitext(content):
     metaCount = 0
     isMeta = False
     for s in content.splitlines():
-        for i, c in enumerate(s):
+        if "{{*mp}}" in s:
+            count +=1
+            continue
+        for c in s:
             if c == "*":
                 if isMeta:
                     metaCount += 1
